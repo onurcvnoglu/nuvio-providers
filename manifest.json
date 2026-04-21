@@ -75,6 +75,56 @@
       ],
       "limited": false,
       "disabledPlatforms": []
+    },
+    {
+      "id": "dizipal",
+      "name": "DiziPal",
+      "description": "DiziPal kaynaklarindan film ve dizi streamleri bulur.",
+      "version": "1.0.0",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/dizipal.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
+    },
+    {
+      "id": "animecix",
+      "name": "AnimeciX",
+      "description": "AnimeciX kaynaklarindan anime film ve dizi streamleri bulur.",
+      "version": "1.0.0",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/animecix.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
     }
   ]
 }

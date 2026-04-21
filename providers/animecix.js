@@ -1,8 +1,9 @@
 var TMDB_API_KEY = "4ef0d7355d9ffb5151e987764708ce96";
 var API_BASE = "https://stream.watchbuddy.tv/api/v1";
-var PLUGIN = "WebDramaTurkey";
-var PROVIDER_ID = "webdramaturkey";
-var PROVIDER_NAME = "WebDramaTurkey";
+var PLUGIN = "AnimeciX";
+var PROVIDER_ID = "animecix";
+var PROVIDER_NAME = "AnimeciX";
+var SUPPORTED_TYPES = ["movie", "tv"];
 
 function fetchJson(url) {
   return fetch(url, {
@@ -54,6 +55,10 @@ function buildQueries(metadata) {
   }).slice(0, 8);
 }
 
+function hasSupportedType(mediaType) {
+  return SUPPORTED_TYPES.indexOf(mediaType) >= 0;
+}
+
 function hostOf(url) {
   var match = String(url || "").match(/^https?:\/\/([^/:?#]+)/i);
   return match ? match[1].replace(/^www\./, "") : "External";
@@ -61,7 +66,13 @@ function hostOf(url) {
 
 function qualityOf(value) {
   var match = String(value || "").match(/(2160p|1080p|720p|480p|360p|4k)/i);
-  return match ? match[1].toUpperCase().replace("4K", "4K") : "Auto";
+  if (!match) return "Auto";
+  return match[1].toLowerCase() === "4k" ? "4K" : match[1].toUpperCase();
+}
+
+function two(value) {
+  value = String(value || 0);
+  return value.length < 2 ? "0" + value : value;
 }
 
 function getMetadata(tmdbId, mediaType) {
@@ -121,14 +132,19 @@ function asEncodedUrl(value) {
   return /^https?:\/\//i.test(text) ? encodeURIComponent(text) : text;
 }
 
-function resultType(result) {
-  var decoded = "";
+function decodeMaybe(value) {
   try {
-    decoded = decodeURIComponent(result.url || "");
+    return decodeURIComponent(String(value || ""));
   } catch (_error) {
-    decoded = String(result.url || "");
+    return String(value || "");
   }
-  return decoded.indexOf("/film/") >= 0 ? "movie" : "tv";
+}
+
+function resultType(result) {
+  var decoded = decodeMaybe(result && result.url);
+  if (decoded.indexOf("/film/") >= 0) return "movie";
+  if (decoded.indexOf("/dizi/") >= 0 || decoded.indexOf("-sezon-") >= 0 || decoded.indexOf("/sezon-") >= 0) return "tv";
+  return "unknown";
 }
 
 function scoreResult(result, metadata) {
@@ -154,7 +170,8 @@ function findCandidates(metadata) {
       if (candidates.length >= 12) return null;
       return apiSearch(query).then(function(results) {
         results.forEach(function(result) {
-          if (result && result.url && resultType(result) === metadata.mediaType) {
+          var type = resultType(result);
+          if (result && result.url && (type === metadata.mediaType || type === "unknown")) {
             result.searchScore = scoreResult(result, metadata);
             candidates.push(result);
           }
@@ -195,7 +212,7 @@ function resolveTarget(candidate, mediaType, season, episode) {
 }
 
 function buildStreams(links, metadata, season, episode) {
-  var episodeTag = season ? " - S" + String(season).padStart(2, "0") + "E" + String(episode).padStart(2, "0") : "";
+  var episodeTag = season ? " - S" + two(season) + "E" + two(episode) : "";
   return (links || []).filter(function(link) {
     return link && link.url;
   }).map(function(link) {
@@ -215,6 +232,7 @@ function buildStreams(links, metadata, season, episode) {
 }
 
 function getStreams(tmdbId, mediaType, season, episode) {
+  if (!hasSupportedType(mediaType)) return Promise.resolve([]);
   return getMetadata(tmdbId, mediaType).then(function(metadata) {
     return findCandidates(metadata).then(function(candidates) {
       var index = 0;
