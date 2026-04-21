@@ -1,6 +1,6 @@
 /**
  * selcukflix - Built from src/selcukflix/
- * Generated: 2026-04-21T14:07:10.550Z
+ * Generated: 2026-04-21T14:39:30.887Z
  */
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __commonJS = (cb, mod) => function __require() {
@@ -378,6 +378,7 @@ var require_directShared = __commonJS({
     var { uniqueStrings, formatEpisodeTag } = require_normalize();
     var { extractQuality } = require_matcher();
     var domainCachePromise = null;
+    var cryptoJsCache = null;
     function mergeHeaders(extraHeaders) {
       var merged = {};
       var key;
@@ -436,9 +437,34 @@ var require_directShared = __commonJS({
     function unescapeUrl(value) {
       return String(value || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/").replace(/\\\\/g, "\\").replace(/\\x3D/g, "=").replace(/\\x26/g, "&").replace(/^"+|"+$/g, "");
     }
+    function decodeBase64Binary(value) {
+      var input = String(value || "").replace(/\s+/g, "");
+      var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+      var output = "";
+      var buffer = 0;
+      var bits = 0;
+      var index;
+      var current;
+      if (typeof atob === "function") {
+        return atob(input);
+      }
+      input = input.replace(/-/g, "+").replace(/_/g, "/").replace(/=+$/g, "");
+      for (index = 0; index < input.length; index += 1) {
+        current = alphabet.indexOf(input.charAt(index));
+        if (current < 0) {
+          continue;
+        }
+        buffer = buffer << 6 | current;
+        bits += 6;
+        if (bits >= 8) {
+          bits -= 8;
+          output += String.fromCharCode(buffer >> bits & 255);
+        }
+      }
+      return output;
+    }
     function base64ToBytes(value) {
-      var normalized = String(value || "").replace(/\s+/g, "");
-      var decoded = atob(normalized);
+      var decoded = decodeBase64Binary(value);
       var bytes = new Uint8Array(decoded.length);
       var index;
       for (index = 0; index < decoded.length; index += 1) {
@@ -456,10 +482,72 @@ var require_directShared = __commonJS({
       return bytes;
     }
     function utf8Bytes(value) {
-      return new TextEncoder().encode(String(value || ""));
+      var input = String(value || "");
+      var output = [];
+      var index;
+      var code;
+      if (typeof TextEncoder !== "undefined") {
+        return new TextEncoder().encode(input);
+      }
+      for (index = 0; index < input.length; index += 1) {
+        code = input.charCodeAt(index);
+        if (code < 128) {
+          output.push(code);
+        } else if (code < 2048) {
+          output.push(192 | code >> 6, 128 | code & 63);
+        } else if (code >= 55296 && code <= 56319 && index + 1 < input.length) {
+          index += 1;
+          code = 65536 + ((code & 1023) << 10) + (input.charCodeAt(index) & 1023);
+          output.push(240 | code >> 18, 128 | code >> 12 & 63, 128 | code >> 6 & 63, 128 | code & 63);
+        } else {
+          output.push(224 | code >> 12, 128 | code >> 6 & 63, 128 | code & 63);
+        }
+      }
+      return new Uint8Array(output);
     }
     function utf8String(value) {
-      return new TextDecoder().decode(value);
+      var output = "";
+      var index;
+      var byte1;
+      var byte2;
+      var byte3;
+      var byte4;
+      var code;
+      if (typeof TextDecoder !== "undefined") {
+        return new TextDecoder().decode(value);
+      }
+      for (index = 0; index < value.length; index += 1) {
+        byte1 = value[index];
+        if (byte1 < 128) {
+          output += String.fromCharCode(byte1);
+        } else if (byte1 >= 192 && byte1 < 224) {
+          byte2 = value[++index];
+          output += String.fromCharCode((byte1 & 31) << 6 | byte2 & 63);
+        } else if (byte1 >= 224 && byte1 < 240) {
+          byte2 = value[++index];
+          byte3 = value[++index];
+          output += String.fromCharCode((byte1 & 15) << 12 | (byte2 & 63) << 6 | byte3 & 63);
+        } else {
+          byte2 = value[++index];
+          byte3 = value[++index];
+          byte4 = value[++index];
+          code = (byte1 & 7) << 18 | (byte2 & 63) << 12 | (byte3 & 63) << 6 | byte4 & 63;
+          code -= 65536;
+          output += String.fromCharCode(55296 + (code >> 10), 56320 + (code & 1023));
+        }
+      }
+      return output;
+    }
+    function getCryptoJs() {
+      if (cryptoJsCache !== null) {
+        return cryptoJsCache;
+      }
+      try {
+        cryptoJsCache = require("crypto-js");
+      } catch (_error) {
+        cryptoJsCache = false;
+      }
+      return cryptoJsCache;
     }
     function importAesKey(keyText) {
       if (!globalThis.crypto || !globalThis.crypto.subtle) {
@@ -467,7 +555,29 @@ var require_directShared = __commonJS({
       }
       return globalThis.crypto.subtle.importKey("raw", utf8Bytes(keyText), { name: "AES-CBC" }, false, ["decrypt"]);
     }
+    function decryptAesCbcCryptoJs(ciphertext, keyText, encoding) {
+      var CryptoJS = getCryptoJs();
+      var key;
+      var iv;
+      var encrypted;
+      var decrypted;
+      if (!CryptoJS) {
+        return Promise.reject(new Error("AES decrypt unavailable"));
+      }
+      key = CryptoJS.enc.Utf8.parse(String(keyText || ""));
+      iv = CryptoJS.lib.WordArray.create([0, 0, 0, 0], 16);
+      encrypted = encoding === "hex" ? CryptoJS.enc.Hex.parse(String(ciphertext || "").replace(/^"+|"+$/g, "")) : CryptoJS.enc.Base64.parse(String(ciphertext || "").replace(/\s+/g, ""));
+      decrypted = CryptoJS.AES.decrypt(
+        { ciphertext: encrypted },
+        key,
+        { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+      );
+      return Promise.resolve(decrypted.toString(CryptoJS.enc.Utf8));
+    }
     function decryptAesCbcBase64(payload, keyText) {
+      if (!globalThis.crypto || !globalThis.crypto.subtle) {
+        return decryptAesCbcCryptoJs(payload, keyText, "base64");
+      }
       return importAesKey(keyText).then(function(cryptoKey) {
         return globalThis.crypto.subtle.decrypt(
           { name: "AES-CBC", iv: new Uint8Array(16) },
@@ -479,6 +589,9 @@ var require_directShared = __commonJS({
       });
     }
     function decryptAesCbcHex(payload, keyText) {
+      if (!globalThis.crypto || !globalThis.crypto.subtle) {
+        return decryptAesCbcCryptoJs(payload, keyText, "hex");
+      }
       return importAesKey(keyText).then(function(cryptoKey) {
         return globalThis.crypto.subtle.decrypt(
           { name: "AES-CBC", iv: new Uint8Array(16) },
