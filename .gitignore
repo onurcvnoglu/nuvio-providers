@@ -54,6 +54,10 @@ jspm_packages/
 *.swo
 *~
 
+# Local-only provider sources and agent rules
+AGENTS.md
+src/
+
 # OS generated files
 .DS_Store
 .DS_Store?
