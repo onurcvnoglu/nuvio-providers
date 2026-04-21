@@ -1,23 +1,70 @@
 [
   {
-    "id": "template-provider",
-    "name": "Template Provider",
-    "description": "A starter template for creating Nuvio providers.",
+    "id": "webdramaturkey",
+    "name": "WebDramaTurkey",
+    "description": "WebDramaTurkey kaynaklarindan film ve dizi streamleri bulur.",
     "version": "1.0.0",
-    "author": "Your Name",
+    "author": "Onur Civanoglu",
     "supportedTypes": [
       "movie",
       "tv"
     ],
-    "filename": "providers/template.js",
-    "enabled": false,
+    "filename": "providers/webdramaturkey.js",
+    "enabled": true,
     "logo": "",
     "contentLanguage": [
-      "en"
+      "tr"
     ],
     "formats": [
-      "mp4",
-      "mkv"
+      "m3u8",
+      "mp4"
+    ],
+    "limited": false,
+    "disabledPlatforms": [],
+    "supportsExternalPlayer": true
+  },
+  {
+    "id": "dizilla",
+    "name": "Dizilla",
+    "description": "Dizilla kaynaklarindan dizi streamleri bulur.",
+    "version": "1.0.0",
+    "author": "Onur Civanoglu",
+    "supportedTypes": [
+      "tv"
+    ],
+    "filename": "providers/dizilla.js",
+    "enabled": true,
+    "logo": "",
+    "contentLanguage": [
+      "tr"
+    ],
+    "formats": [
+      "m3u8",
+      "mp4"
+    ],
+    "limited": false,
+    "disabledPlatforms": [],
+    "supportsExternalPlayer": true
+  },
+  {
+    "id": "selcukflix",
+    "name": "SelcukFlix",
+    "description": "SelcukFlix kaynaklarindan film ve dizi streamleri bulur.",
+    "version": "1.0.0",
+    "author": "Onur Civanoglu",
+    "supportedTypes": [
+      "movie",
+      "tv"
+    ],
+    "filename": "providers/selcukflix.js",
+    "enabled": true,
+    "logo": "",
+    "contentLanguage": [
+      "tr"
+    ],
+    "formats": [
+      "m3u8",
+      "mp4"
     ],
     "limited": false,
     "disabledPlatforms": [],

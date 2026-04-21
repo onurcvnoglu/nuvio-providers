@@ -45,6 +45,7 @@ function getProvidersToBuild() {
 
     return fs.readdirSync(srcDir, { withFileTypes: true })
         .filter(d => d.isDirectory())
+        .filter(d => fs.existsSync(path.join(srcDir, d.name, 'index.js')))
         .map(d => d.name);
 }
 
@@ -190,4 +191,3 @@ main().catch(err => {
     console.error('Build failed:', err);
     process.exit(1);
 });
-
