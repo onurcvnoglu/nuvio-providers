@@ -1,5 +1,5 @@
 var TMDB_API_KEY = "4ef0d7355d9ffb5151e987764708ce96";
-var API_BASE = "https://stream.watchbuddy.tv/api/v1";
+var API_BASE = "https://kekikstream.onrcvndev.com.tr/api/v1";
 var PLUGIN = "AnimeciX";
 var PROVIDER_ID = "animecix";
 var PROVIDER_NAME = "AnimeciX";
