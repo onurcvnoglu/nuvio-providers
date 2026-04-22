@@ -1,6 +1,6 @@
 {
   "name": "Onrcvn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scrapers": [
     {
       "id": "webdramaturkey",
@@ -77,16 +77,15 @@
       "disabledPlatforms": []
     },
     {
-      "id": "dizipal",
-      "name": "DiziPal",
-      "description": "DiziPal kaynaklarindan film ve dizi streamleri bulur.",
+      "id": "dizimom",
+      "name": "DiziMom",
+      "description": "DiziMom kaynaklarindan dizi streamleri bulur.",
       "version": "1.0.0",
       "author": "Onur Civanoglu",
       "supportedTypes": [
-        "movie",
         "tv"
       ],
-      "filename": "providers/dizipal.js",
+      "filename": "providers/dizimom.js",
       "enabled": true,
       "formats": [
         "mp4",

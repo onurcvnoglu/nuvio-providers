@@ -1,9 +1,9 @@
 var TMDB_API_KEY = "4ef0d7355d9ffb5151e987764708ce96";
 var API_BASE = "https://stream.watchbuddy.tv/api/v1";
-var PLUGIN = "DiziPal";
-var PROVIDER_ID = "dizipal";
-var PROVIDER_NAME = "DiziPal";
-var SUPPORTED_TYPES = ["movie", "tv"];
+var PLUGIN = "DiziMom";
+var PROVIDER_ID = "dizimom";
+var PROVIDER_NAME = "DiziMom";
+var SUPPORTED_TYPES = ["tv"];
 
 function fetchJson(url) {
   return fetch(url, {
@@ -142,8 +142,9 @@ function decodeMaybe(value) {
 
 function resultType(result) {
   var decoded = decodeMaybe(result && result.url);
-  if (decoded.indexOf("/dizi/") >= 0 || decoded.indexOf("-sezon-") >= 0 || decoded.indexOf("/sezon-") >= 0) return "tv";
-  return "movie";
+  if (decoded.indexOf("/film/") >= 0) return "movie";
+  if (decoded.indexOf("/dizi/") >= 0 || decoded.indexOf("/diziler/") >= 0 || decoded.indexOf("-sezon-") >= 0 || decoded.indexOf("/sezon-") >= 0) return "tv";
+  return "unknown";
 }
 
 function scoreResult(result, metadata) {
