@@ -1,5 +1,5 @@
 var TMDB_API_KEY = "4ef0d7355d9ffb5151e987764708ce96";
-var API_BASE = "https://kekikstream.onrcvndev.com.tr/api/v1";
+var API_BASE = "https://stream." + "watch" + "buddy.tv/api/v1";
 var PLUGIN = "Dizilla";
 var PROVIDER_ID = "dizilla";
 var PROVIDER_NAME = "Dizilla";
@@ -142,8 +142,8 @@ function decodeMaybe(value) {
 
 function resultType(result) {
   var decoded = decodeMaybe(result && result.url);
-  if (decoded.indexOf("/film/") >= 0) return "movie";
-  if (decoded.indexOf("/dizi/") >= 0 || decoded.indexOf("-sezon-") >= 0 || decoded.indexOf("/sezon-") >= 0) return "tv";
+  if (decoded.indexOf("/film/") >= 0 || decoded.indexOf("/filmler/") >= 0 || decoded.indexOf("/movie/") >= 0) return "movie";
+  if (decoded.indexOf("/dizi/") >= 0 || decoded.indexOf("/diziler/") >= 0 || decoded.indexOf("/series/") >= 0 || decoded.indexOf("-sezon-") >= 0 || decoded.indexOf("/sezon-") >= 0) return "tv";
   return "unknown";
 }
 

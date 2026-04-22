@@ -1,6 +1,6 @@
 {
   "name": "Onrcvn",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scrapers": [
     {
       "id": "webdramaturkey",
@@ -111,6 +111,127 @@
         "tv"
       ],
       "filename": "providers/animecix.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
+    },
+    {
+      "id": "dizibox",
+      "name": "DiziBox",
+      "description": "DiziBox kaynaklarindan dizi streamleri bulur.",
+      "version": "1.0.1",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "tv"
+      ],
+      "filename": "providers/dizibox.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
+    },
+    {
+      "id": "dramaflix",
+      "name": "DramaFlix",
+      "description": "DramaFlix kaynaklarindan dizi streamleri bulur.",
+      "version": "1.0.1",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "tv"
+      ],
+      "filename": "providers/dramaflix.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
+    },
+    {
+      "id": "filmmakinesi",
+      "name": "FilmMakinesi",
+      "description": "FilmMakinesi kaynaklarindan film streamleri bulur.",
+      "version": "1.0.1",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "movie"
+      ],
+      "filename": "providers/filmmakinesi.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
+    },
+    {
+      "id": "hdfilmcehennemi",
+      "name": "HDFilmCehennemi",
+      "description": "HDFilmCehennemi kaynaklarindan film streamleri bulur.",
+      "version": "1.0.1",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "movie"
+      ],
+      "filename": "providers/hdfilmcehennemi.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "mkv",
+        "hls",
+        "m3u8"
+      ],
+      "logo": "",
+      "contentLanguage": [
+        "tr"
+      ],
+      "limited": false,
+      "disabledPlatforms": []
+    },
+    {
+      "id": "xprime",
+      "name": "XPrime",
+      "description": "XPrime kaynaklarindan film ve dizi streamleri bulur.",
+      "version": "1.0.1",
+      "author": "Onur Civanoglu",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/xprime.js",
       "enabled": true,
       "formats": [
         "mp4",

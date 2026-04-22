@@ -1,8 +1,8 @@
 var TMDB_API_KEY = "4ef0d7355d9ffb5151e987764708ce96";
 var API_BASE = "https://stream." + "watch" + "buddy.tv/api/v1";
-var PLUGIN = "WebDramaTurkey";
-var PROVIDER_ID = "webdramaturkey";
-var PROVIDER_NAME = "WebDramaTurkey";
+var PLUGIN = "XPrime";
+var PROVIDER_ID = "xprime";
+var PROVIDER_NAME = "XPrime";
 var SUPPORTED_TYPES = ["movie","tv"];
 
 function fetchJson(url) {
