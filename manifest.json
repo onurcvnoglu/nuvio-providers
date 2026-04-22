@@ -6,7 +6,7 @@
       "id": "webdramaturkey",
       "name": "WebDramaTurkey",
       "description": "WebDramaTurkey kaynaklarindan film ve dizi streamleri bulur.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Onur Civanoglu",
       "supportedTypes": [
         "movie",
@@ -31,7 +31,7 @@
       "id": "dizilla",
       "name": "Dizilla",
       "description": "Dizilla kaynaklarindan dizi streamleri bulur.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Onur Civanoglu",
       "supportedTypes": [
         "tv"
@@ -55,7 +55,7 @@
       "id": "selcukflix",
       "name": "SelcukFlix",
       "description": "SelcukFlix kaynaklarindan film ve dizi streamleri bulur.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Onur Civanoglu",
       "supportedTypes": [
         "movie",
@@ -80,7 +80,7 @@
       "id": "dizimom",
       "name": "DiziMom",
       "description": "DiziMom kaynaklarindan dizi streamleri bulur.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Onur Civanoglu",
       "supportedTypes": [
         "tv"
@@ -104,7 +104,7 @@
       "id": "animecix",
       "name": "AnimeciX",
       "description": "AnimeciX kaynaklarindan anime film ve dizi streamleri bulur.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Onur Civanoglu",
       "supportedTypes": [
         "movie",
