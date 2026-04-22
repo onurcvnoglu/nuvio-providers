@@ -211,6 +211,16 @@ function resolveTarget(candidate, mediaType, season, episode) {
   });
 }
 
+function proxiedUrl(link) {
+  var url = String(link && link.url || "");
+  var userAgent = String(link && link.user_agent || "");
+  var referer = String(link && link.referer || "");
+  var proxy = "https://goproxy." + "watch" + "buddy.tv/proxy/video?url=" + encodeURIComponent(url);
+  if (userAgent) proxy += "&user_agent=" + encodeURIComponent(userAgent);
+  if (referer) proxy += "&referer=" + encodeURIComponent(referer);
+  return proxy;
+}
+
 function buildStreams(links, metadata, season, episode) {
   var episodeTag = season ? " - S" + two(season) + "E" + two(episode) : "";
   return (links || []).filter(function(link) {
@@ -222,7 +232,7 @@ function buildStreams(links, metadata, season, episode) {
     return {
       name: PROVIDER_NAME + " - " + (link.name || hostOf(link.url)),
       title: metadata.displayTitle + episodeTag + " - " + (link.name || "Auto"),
-      url: link.url,
+      url: proxiedUrl(link),
       quality: qualityOf(link.name || link.url),
       headers: headers,
       subtitles: link.subtitles || [],
